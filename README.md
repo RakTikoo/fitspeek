@@ -1,2 +1,72 @@
 # fitspeek
-Turn a pile of FITS image files into contact-sheet PNGs with header stamps, for quick triage of a night's images.
+
+Turn a pile of FITS image files into contact-sheet PNGs — a grid of thumbnails with the key header info stamped on each — so you can triage a night's images at a glance instead of opening files one by one.
+
+Astropy ships `fits2bitmap`, which converts one file at a time. fitspeek does the whole folder: one command, tiled sheets, a compass on every frame whose WCS carries a CD or PC matrix, and an index that maps each thumbnail back to its source file.
+
+## Demo
+
+Synthetic sample data (generate it with `python examples/make_examples.py` — one WCS image, one plain image, one cube, one table-only file):
+
+```console
+$ fitspeek make examples/sample --out sheets --cols 2
+skipped: table_only.fits — no image HDU with data
+Rendered: 3 images
+Skipped: 1 (1 no image HDU with data)
+Sheets: 1 written to sheets/ (plus index.csv)
+```
+
+That writes `sheets/sheet_001.png` — a 2×2 sheet where each tile is stamped with its filename plus OBJECT · DATE-OBS · filter · exposure time when the header has them — and `sheets/index.csv`:
+
+```csv
+source_file,sheet,tile,status,reason
+examples/sample/cube.fits,sheet_001.png,1,rendered,
+examples/sample/m42_wcs.fits,sheet_001.png,2,rendered,
+examples/sample/plain_field.fits,sheet_001.png,3,rendered,
+examples/sample/table_only.fits,,,skipped,no image HDU with data
+```
+
+## Install
+
+```console
+$ pip install git+https://github.com/RakTikoo/fitspeek
+```
+
+Needs Python 3.10+; depends on Astropy, NumPy and Matplotlib.
+
+## Usage
+
+```console
+$ fitspeek make /data/night1 --out sheets/ --cols 3
+$ fitspeek make frame001.fits frame002.fits --out sheets/ --cols 2
+```
+
+- Inputs can be folders (all FITS files directly inside are used), individual files, or a mix.
+- Each sheet holds `--cols` × `--cols` thumbnails (`sheet_001.png`, `sheet_002.png`, …).
+- Every thumbnail uses a ZScale stretch (with a percentile fallback), and gets a north/east compass when the header carries a CD or PC matrix.
+- `index.csv` lists every FITS file collected from the inputs: which sheet and tile it landed on, or that it was skipped and why. (Non-FITS files inside a folder argument are not collected and do not appear.)
+
+## How it treats your data
+
+- The first HDU that holds image data is the one rendered.
+- **Cubes are median-combined** across all planes into a single image before rendering.
+- Files with no image data, zero-size images, and all-NaN images are skipped with a printed reason and a `skipped` row in `index.csv`. Corrupt files are skipped the same way — one bad file never stops the batch.
+
+## Honest limits
+
+- Folder inputs are **not recursive** — subfolders are not scanned.
+- The stamp reads `OBJECT`, `DATE-OBS`, `FILTER`, `EXPTIME` only, spelled exactly that way; instrument variants (e.g. `FILTER1`, `EXPOSURE`) are not normalised.
+- The compass needs a CD or PC matrix; a header with only `CDELT`/`CROTA` gets no compass.
+- Sheets are for triage, not measurement: thumbnails are stretched for visibility, not photometrically faithful.
+- Large images are rendered in memory as-is; there is no downsampling step before the stretch.
+- `--cols` has no upper bound; very large values produce very large, slow sheets.
+
+## Tests
+
+```console
+$ python3 run_tests.py
+```
+
+## License
+
+MIT

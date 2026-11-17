@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fitspeek"
+version = "0.1.0"
+description = "Turn a pile of FITS image files into contact-sheet PNGs with header stamps, for quick triage of a night's images."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [
+    { name = "RakTikoo" },
+]
+keywords = ["astronomy", "fits", "contact-sheet", "triage"]
+dependencies = [
+    "astropy>=5.0",
+    "numpy",
+    "matplotlib",
+]
+
+[project.scripts]
+fitspeek = "fitspeek.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["fitspeek*"]
