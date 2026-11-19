@@ -1,5 +1,7 @@
 # fitspeek — turn a folder of FITS images into contact-sheet PNGs
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/RakTikoo/fitspeek)
+
 Turn a pile of FITS image files into contact-sheet PNGs — a grid of thumbnails with the key header info stamped on each — so you can triage a night's images at a glance instead of opening files one by one.
 
 Astropy ships `fits2bitmap`, which converts one file at a time. fitspeek does the whole folder: one command, tiled sheets, a compass on every frame whose WCS carries a CD or PC matrix, and an index that maps each thumbnail back to its source file.
@@ -63,6 +65,8 @@ With Scoop (Windows):
 scoop bucket add RakTikoo https://github.com/RakTikoo/scoop-bucket
 scoop install fitspeek
 ```
+
+**For agent users:** this repository ships a `SKILL.md` for AI agents. Install it with `npx skills add RakTikoo/fitspeek`.
 
 ## Usage
 
