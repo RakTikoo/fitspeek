@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - name: RakTikoo
+title: "fitspeek: turn a folder of FITS image files into contact-sheet PNGs for triage"
+version: 0.1.0
+date-released: 2026-11-17
+license: MIT
+url: "https://github.com/RakTikoo/fitspeek"
+repository-code: "https://github.com/RakTikoo/fitspeek"
+abstract: >-
+  Renders a folder of FITS image files into contact-sheet PNGs: grids of
+  thumbnails stamped with filename and key header values, a north/east
+  compass where the WCS carries a CD or PC matrix, and an index.csv
+  mapping every thumbnail back to its source file.
+keywords:
+  - astronomy
+  - FITS
+  - contact sheet
+  - triage

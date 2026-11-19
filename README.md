@@ -1,8 +1,10 @@
-# fitspeek
+# fitspeek — turn a folder of FITS images into contact-sheet PNGs
 
 Turn a pile of FITS image files into contact-sheet PNGs — a grid of thumbnails with the key header info stamped on each — so you can triage a night's images at a glance instead of opening files one by one.
 
 Astropy ships `fits2bitmap`, which converts one file at a time. fitspeek does the whole folder: one command, tiled sheets, a compass on every frame whose WCS carries a CD or PC matrix, and an index that maps each thumbnail back to its source file.
+
+**Quick install:** `pip install git+https://github.com/RakTikoo/fitspeek` (Python 3.10+; Astropy, NumPy, Matplotlib). Details under [Install](#install).
 
 ## Demo
 
