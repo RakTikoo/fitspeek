@@ -4,6 +4,8 @@ import csv
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
+from fitspeek.cli import main
 from pathlib import Path
 
 import numpy as np
@@ -214,6 +216,25 @@ class TestFitsPeek(unittest.TestCase):
         write_image(self.indir / "a.fits", self.field)
         with self.assertRaises(ValueError):
             make([str(self.indir)], str(self.outdir), cols=0)
+
+    def test_cli_rejects_cols_outside_range(self):
+        for cols in [0, -1, 11, 100]:
+            with self.subTest(cols=cols):
+                with patch("fitspeek.cli.make") as mock_make:
+                    with self.assertRaises(SystemExit) as cm:
+                        main(["make", str(self.indir), "--cols", str(cols)])
+
+                    self.assertEqual(cm.exception.code, 2)
+                    mock_make.assert_not_called()
+
+    def test_cli_accepts_cols_boundaries(self):
+        for cols in [1, 10]:
+            with self.subTest(cols=cols):
+                with patch("fitspeek.cli.make") as mock_make:
+                    result = main(["make", str(self.indir), "--cols", str(cols)])
+
+                    self.assertEqual(result, 0)
+                    mock_make.assert_called_once_with([str(self.indir)], "sheets", cols)
 
     def test_empty_directory_no_crash(self):
         summary = make([str(self.indir)], str(self.outdir), cols=3)

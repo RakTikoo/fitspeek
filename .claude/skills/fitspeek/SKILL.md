@@ -72,5 +72,4 @@ was rendered.
   visibility, not photometrically faithful.
 - Large images are rendered in memory as-is; there is no downsampling
   step before the stretch.
-- `--cols` has no upper bound; very large values produce very large,
-  slow sheets.
+- `--cols` ranges from 1 to 10.

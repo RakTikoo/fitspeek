@@ -1,0 +1,13 @@
+LICENSE
+README.md
+pyproject.toml
+fitspeek/__init__.py
+fitspeek/cli.py
+fitspeek/core.py
+fitspeek.egg-info/PKG-INFO
+fitspeek.egg-info/SOURCES.txt
+fitspeek.egg-info/dependency_links.txt
+fitspeek.egg-info/entry_points.txt
+fitspeek.egg-info/requires.txt
+fitspeek.egg-info/top_level.txt
+tests/test_fitspeek.py

@@ -38,8 +38,8 @@ def main(argv=None) -> int:
 
     args = parser.parse_args(argv)
     if args.command == "make":
-        if args.cols < 1:
-            parser.error("--cols must be at least 1")
+        if args.cols < 1 or args.cols > 10:
+            parser.error("--cols must be in the range 1 to 10")
         make(args.inputs, args.out, args.cols)
         return 0
     return 2
