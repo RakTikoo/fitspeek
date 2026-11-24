@@ -77,6 +77,7 @@ $ fitspeek make frame001.fits frame002.fits --out sheets/ --cols 2
 
 - Inputs can be folders (all FITS files directly inside are used), individual files, or a mix.
 - Each sheet holds `--cols` × `--cols` thumbnails (`sheet_001.png`, `sheet_002.png`, …).
+- `--cols` ranges from 1 to 10.
 - Every thumbnail uses a ZScale stretch (with a percentile fallback), and gets a north/east compass when the header carries a CD or PC matrix.
 - `index.csv` lists every FITS file collected from the inputs: which sheet and tile it landed on, or that it was skipped and why. (Non-FITS files inside a folder argument are not collected and do not appear.)
 
@@ -93,7 +94,7 @@ $ fitspeek make frame001.fits frame002.fits --out sheets/ --cols 2
 - The compass needs a CD or PC matrix; a header with only `CDELT`/`CROTA` gets no compass.
 - Sheets are for triage, not measurement: thumbnails are stretched for visibility, not photometrically faithful.
 - Large images are rendered in memory as-is; there is no downsampling step before the stretch.
-- `--cols` has no upper bound; very large values produce very large, slow sheets.
+- Upper bound of `--cols` is 10 and any number greater than 10 doesn't generate sheets. 
 
 ## Tests
 
