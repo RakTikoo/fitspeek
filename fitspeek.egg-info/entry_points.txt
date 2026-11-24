@@ -1,2 +1,0 @@
-[console_scripts]
-fitspeek = fitspeek.cli:main
